@@ -11,6 +11,36 @@ class AgentSafehouse < Formula
     odie "Agent Safehouse requires macOS" unless OS.mac?
     artifact_path = build.head? ? "dist/safehouse.sh" : "safehouse.sh"
     bin.install artifact_path => "safehouse"
+
+    # Fish shell integration
+    (share/"fish/vendor_conf.d").mkpath
+    (share/"fish/vendor_conf.d/safehouse.fish").write <<~'FISH'
+      set -gx SAFEHOUSE_APPEND_PROFILE "$HOME/.config/agent-safehouse/local-overrides.sb"
+
+      # Ensure config dir and overrides file exist
+      if not test -f $SAFEHOUSE_APPEND_PROFILE
+          mkdir -p (dirname $SAFEHOUSE_APPEND_PROFILE)
+          touch $SAFEHOUSE_APPEND_PROFILE
+      end
+
+      function safe
+          safehouse --append-profile="$SAFEHOUSE_APPEND_PROFILE" $argv
+      end
+
+      function safe-claude
+          safe claude --dangerously-skip-permissions $argv
+      end
+    FISH
+  end
+
+  def caveats
+    <<~EOS
+      Fish shell: `safe` and `safe-claude` are available in new sessions.
+
+      Bash/zsh: add to your profile:
+        export SAFEHOUSE_APPEND_PROFILE="$HOME/.config/agent-safehouse/local-overrides.sb"
+        mkdir -p ~/.config/agent-safehouse && touch "$SAFEHOUSE_APPEND_PROFILE"
+    EOS
   end
 
   test do
