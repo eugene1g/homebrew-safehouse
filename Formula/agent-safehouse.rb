@@ -1,9 +1,9 @@
 class AgentSafehouse < Formula
   desc "macOS sandbox wrapper for coding agents"
   homepage "https://github.com/eugene1g/agent-safehouse"
-  url "https://github.com/eugene1g/agent-safehouse/releases/download/v0.12.0/safehouse.sh"
-  version "0.12.0"
-  sha256 "6298e4c8e8c0668bd2f79d8f8da7f605071c0b1f15328f263304783db6fe2829"
+  url "https://github.com/eugene1g/agent-safehouse/releases/download/v0.13.0/safehouse.sh"
+  version "0.13.0"
+  sha256 "5243708697435deabdde96ad4ee27b7b89289b284e7483b4df19e037c7f3549a"
   license "Apache-2.0"
   head "https://github.com/eugene1g/agent-safehouse.git", branch: "main"
 
